@@ -1,0 +1,14 @@
+services:
+  samba:
+    image: localhost/samba
+    container_name: samba
+    network_mode: host
+    environment:
+      #for multiple users, it should be "abc, abd, add". first would map to samba1, similarly to remains.
+      SMB_USERS: "windows_user_abc"
+      #similar to password
+      SMB_PASSWORDS: "abc"
+    volumes:
+      - ${PWD}/data:/srv/samba/share
+      - ${PWD}/smb.conf:/etc/samba/smb.conf
+    restart: always
