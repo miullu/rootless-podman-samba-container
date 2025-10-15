@@ -12,4 +12,4 @@ RUN apk update && \
     done
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["-D"]
+CMD ["-F","--debug-stdout","--no-process-group"]
