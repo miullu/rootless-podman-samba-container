@@ -1,8 +1,12 @@
-name: Docker Build and Publish
+name: Docker Build and Publish (Manual)
 
 on:
-  push:
-    tags: [ 'v*.*.*' ]   # Only run when you push a version tag like v1.0.0
+  workflow_dispatch:
+    inputs:
+      samba_version:
+        description: 'Version of Samba to install (e.g. 4.20.0)'
+        required: true
+        default: 'latest'
 
 env:
   REGISTRY: ghcr.io
@@ -34,11 +38,15 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=${{ github.event.inputs.samba_version }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
+          build-args: |
+            SAMBA_VERSION=${{ github.event.inputs.samba_version }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
