@@ -15,7 +15,7 @@ you can freely customise your smb.conf but remember some important lines
 here is an example which is similar to my usage
 
 
-smb.conf
+## smb.conf
 ```smb.conf
 [global]
         # cant be removed, the major setting for implementation
@@ -52,7 +52,7 @@ smb.conf
         directory mask = 0770
 ```
 
-compose.yml
+## compose.yml
 ```compose.yml
 services:
   samba:
