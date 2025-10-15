@@ -1,9 +1,11 @@
-#rootless-podman-samba-container
+
+# rootless-podman-samba-container
 
 
 here is a simple rootless podman samba container (base on alpine).
 the container use `user map` function of samba to avoid create linux user during running to bypass permission problem.
 the users in container are created during creation and your customise user name is mapped to the pre-exist linux users.
+
 
 there are some limits about the container. 
 1. without editing Dockerfil and rebuilding the container, you can help up to 5 users.
@@ -11,6 +13,9 @@ there are some limits about the container.
 
 you can freely customise your smb.conf but remember some important lines
 here is an example which is similar to my usage
+
+
+smb.conf
 ```smb.conf
 [global]
         # cant be removed, the major setting for implementation
@@ -42,8 +47,12 @@ here is an example which is similar to my usage
         #inside: root permission. outside: your gid and uid
         force user = root
         force group = root
+
+        create mask = 0660
+        directory mask = 0770
 ```
 
+compose.yml
 ```compose.yml
 services:
   samba:
@@ -60,6 +69,3 @@ services:
       - ${PWD}/smb.conf:/etc/samba/smb.conf
     restart: always
 ```
-
-        create mask = 0660
-        directory mask = 0770
