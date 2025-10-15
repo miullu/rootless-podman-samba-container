@@ -111,4 +111,4 @@ echo "Samba initialization complete. Starting daemon..."
 
 # Execute smbd in foreground mode (-F) with no daemonization (-S) to keep the container alive
 # The 'exec' command replaces the shell process with the smbd process
-exec /usr/sbin/smbd -F --debug-stdout -d 1 --no-process-group
+exec /usr/sbin/smbd "$@"
